@@ -1,4 +1,4 @@
-function [temp,press,rho,Hgeopvector]=atmosphere4(Hvector,GeometricFlag)
+function [temp,press,rho,Hgeopvector]=atmosphere(Hvector,GeometricFlag)
 %function [temp,press,rho,Hgeopvector]=atmosphere4(Hvector,GeometricFlag)
 % Standard Atmospheric data based on the 1976 NASA Standard Atmoshere.
 % Hvector is a vector of altitudes.

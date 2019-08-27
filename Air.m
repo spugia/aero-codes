@@ -1,6 +1,5 @@
 %.. computes thermodynamic properties of air
-%.. valid for T = 250 -> 1500
-%.. data source: https://www.ohio.edu/mechanical/thermo/property_tables/air/air_Cp_Cv.html
+%.. valid for T = 60 -> 1900 K
 
 % T   = temperature of air
 % eng = english units flag
@@ -17,8 +16,9 @@ function [Cp, Cv, k, R, Mw] = air(T, eng)
 	Ru = 8.314462618;
 	Mw = 18.01528 / 1000;
 
-	Tq = [250 : 50 : 1500];
-	Cpq = [1.003 1.005 1.008 1.013 1.020 1.029 1.040 1.051 1.063 1.075 1.087 1.099 1.121 1.142 1.155 1.173 1.19 1.204 1.216];
+	%.. - https://www.engineeringtoolbox.com/air-specific-heat-capacity-d_705.html
+	Tq  = [60 78.79 81.61 100 120 140 160 180 200 220 240 260 273.2 280 288.7 300 320 340 360 380 400 500 600 700 800 900 1100 1500 1900];
+	Cpq = [1.901 1.933 1.089 1.04 1.022 1.014 1.011 1.008 1.007 1.006 1.006 1.006 1.006 1.006 1.006 1.006 1.007 1.009 1.01 1.012 1.014 1.03 1.051 1.075 1.099 1.121 1.159 1.21 1.241];
 
 	%.. calculation
 	R  = Ru / Mw;
@@ -27,9 +27,12 @@ function [Cp, Cv, k, R, Mw] = air(T, eng)
 	k  = Cp ./ Cv;
 
 	%.. unit conversion
-	Cp = Cp .* 0.2390057361377
-	Cv = Cv .* 0.2390057361377
-	R  = R  .* 0.2390057361377
-
-	Mw = Mw * 2.20462;
+	if (eng)
+		
+		Cp = Cp .* 0.238845896627;
+		Cv = Cv .* 0.238845896627;
+		R  = R  .* 0.238845896627;
+	
+		Mw = Mw * 2.20462;
+	end
 end
