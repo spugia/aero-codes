@@ -1,3 +1,5 @@
+%.. MIL STD 5008B
+
 function [P02P00] = ideal_inlet(M)
 
   	if (M < 1)
@@ -7,5 +9,4 @@ function [P02P00] = ideal_inlet(M)
 	else
 		P02P00 = 800 / (M^4 + 935);
 	end
-
 end
