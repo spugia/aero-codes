@@ -39,7 +39,6 @@ Hgeopvector=zeros(size(Hvector));
 % Convert from geometric altitude to geopotental altitude, if necessary.
 if GeometricFlag
 	Hgeopvector=(RE*Hvector)./(RE+Hvector);
-	disp('Convert from geometric altitude to geopotential altitude in feet')
 else 
    Hgeopvector=Hvector;
    %disp('Input data is geopotential altitude in feet')
@@ -56,7 +55,6 @@ n7=find(Hgeopvector<=H(8) & Hgeopvector>H(7));
 n8=find(Hgeopvector<=295000 & Hgeopvector>H(8));
 icorrect=length(n1)+length(n2)+length(n3)+length(n4)+length(n5)+length(n6)+length(n7)+length(n8);
 if icorrect<ih
-	disp('One or more altitutes is above the maximum for this atmospheric model')
 	icorrect
 	ih
 end
