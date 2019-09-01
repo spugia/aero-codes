@@ -1,7 +1,7 @@
 %.. ideal turbofan performance
 %.. english units only
 
-function [Fsp, Isp, f] = ideal_turbofan(M, P0, T0, k, Cp, R, FPR, BPR, CPR, T05, Hc)
+function [Isp, f] = ideal_turbofan(V0, M, P0, T0, CPR, FPR, BPR, T05, Hc, Cp, k)
 
   btuconv = 778.169;
   g = 32.17405;
@@ -24,18 +24,16 @@ function [Fsp, Isp, f] = ideal_turbofan(M, P0, T0, k, Cp, R, FPR, BPR, CPR, T05,
 
   %.. combustor
   P05 = P04;
-  f = (Hc - Cp*T05) / (Cp*(T05 - T04));
+  f = Cp * (T05 - T04) / (Hc - Cp * T05);
 
   %.. turbine
-  T06 = T05 - (T04 - T03 + (1 + BPR)*(T03 - T02)) / (1 + 1/f);
+  T06 = T05 - (T04 - T03 + (1 + BPR)*(T03 - T02)) / (1 + f);
   P06 = P05 * (T06 / T05) ^ (k / (k - 1));
 
   %.. nozzles
-  V0  = M * sqrt(k * R * T0*btuconv*g)
-  V9b = sqrt(2*Cp*btuconv*g*T03*(1 - (P0 / P03)^((k-1) / k)))
-  V9  = sqrt(2*Cp*btuconv*g*T06*(1 - (P0 / P06)^((k-1) / k)))
+  V9b = sqrt(2*Cp*btuconv*g*T03*(1 - (P0 / P03)^((k-1) / k)));
+  V9  = sqrt(2*Cp*btuconv*g*T06*(1 - (P0 / P06)^((k-1) / k)));
 
   %.. performance characteristics
-  Fsp = (BPR*V9b - BPR*V0 + (1 + 1/f)*V9 - V0) / (1 + BPR);
-  Isp = Fsp / (f*g);
+  Isp = ((1 + f)*V9 + BPR*V9b - (1 + BPR)*V0) / (f*g);
 end

@@ -3,8 +3,8 @@
 
 % T   = temperature of air
 % eng = english units flag
-%     - false: Pr = [], T = [K], Cp/Cv/R = [J/kg-k],   k = [], Mw = [kg/mol]
-%     -  true: Pr = [], T = [R], Cp/Cv/R = [BTU/lb-R], k = [], Mw = [lb/mol]
+%     - false: Pr = [], T = [K], Cp/Cv = [J/kg-k],    R = [J/kg-k]    k = [], Mw = [kg/mol]
+%     -  true: Pr = [], T = [R], Cp/Cv = [BTU/lbm-R], R = [BTU/lbm-R] k = [], Mw = [lbm/mol]
 
 function [Pr, Cp, Cv, k, R, Mw] = air(T, eng)
 
@@ -34,10 +34,10 @@ function [Pr, Cp, Cv, k, R, Mw] = air(T, eng)
 	%.. unit conversion
 	if (eng)
 		
-		Cp = Cp .* 0.238845896627;
-		Cv = Cv .* 0.238845896627;
-		R  = R  .* 0.238845896627;
-	
+		Cp = Cp .* 0.000238845896627;
+		Cv = Cv .* 0.000238845896627;
+		R  = R  .* 0.000238845896627;
+
 		Mw = Mw * 2.20462;
 	end
 end
