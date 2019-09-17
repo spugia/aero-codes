@@ -1,7 +1,7 @@
 %.. ideal turbofan performance
 %.. english units only
 
-function [Isp, cont] = ideal_turbofan(V0, M, P0, T0, CPR, FPR, BPR, T05, Hc, Cp, k)
+function [Isp, cont] = ideal_turbofan(V0, M, P0, T0, P00, T00, CPR, FPR, BPR, T05, Hc, Cp, k)
 
   btuconv = 778.169;
   g = 32.17405;
