@@ -1,3 +1,5 @@
+%.. computes mach number for constant entropy area change
+
 function [M2] = nozzle(A2A1, M1, k)
 
 	syms M;
