@@ -8,5 +8,5 @@ function [P2] = pressure(P1, M, k, stag)
 		pow = 1;
 	end
 
-	P2 = P1 * (1 + (k - 1)/2 * M^2) ^ ((k/(k - 1)) * pow);
+	P2 = P1 .* (1 + (k - 1)./2 .* M.^2) .^ ((k/(k - 1)) * pow);
 end
