@@ -1,13 +1,10 @@
-function [xs, As, mfs, Ms, vs, P0s, T0s, Ps, Ts, Fj] = supersonic_comb(k, Cp, M3, P03, T03, mf, Hc, f, AR, Ls, as)
+function [xs, As, mfs, Ms, vs, P0s, T0s, Ps, Ts, Fj] = supersonic_comb(P0, R, k, Cp, M3, P03, T03, mf, Hc, f, AR, Ls, as)
 
-	T3 = temp(T03, M3, 1.4, false);
-	[~, Cpa, ~, ka, Ra, ~] = air(T3, false);
-
-	T3   = temp(T03, M3, ka, false);
-	P3   = pressure(P03, M3, ka, false);
-	rho3 = density(P03/(Ra*T03), M3, ka, false);
-	h0   = sqrt(mf/(rho3*M3*sqrt(ka*Ra*T3)*AR));
-	u3   = M3*sqrt(ka*Ra*T3);
+	T3   = temp(T03, M3, k, false);
+	P3   = pressure(P03, M3, k, false);
+	rho3 = density(P03/(R*T03), M3, k, false);
+	h0   = sqrt(mf/(rho3*M3*sqrt(k*R*T3)*AR));
+	u3   = M3*sqrt(k*R*T3);
 	A3   = h0^2*AR;
 
 	L1 = Ls(1);
@@ -78,7 +75,7 @@ function [xs, As, mfs, Ms, vs, P0s, T0s, Ps, Ts, Fj] = supersonic_comb(k, Cp, M3
 		end
 
 		%.. area
-		dAdx   = AR*hx^2*tand(ax);
+		dAdx   = AR*hx*tand(ax);
 		As(n)  = AR*hx^2;
 
 		%.. mass flow
@@ -86,7 +83,7 @@ function [xs, As, mfs, Ms, vs, P0s, T0s, Ps, Ts, Fj] = supersonic_comb(k, Cp, M3
 		mfs(n) = mfs(n-1) + dmdx*xinc;
 
 		%.. stag temperature
-		dTdx   = dmdx*(Hc/(Cp*T0s(n-1)) - 1) / mfs(n);
+		dTdx   = dmdx*Hc/(Cp*mfs(n)); %dmdx*(Hc/(Cp*T0s(n-1)) - 1) / mfs(n);
 		T0s(n) = T0s(n-1) + dTdx*xinc;
 
 		lst = -1;
@@ -129,10 +126,15 @@ function [xs, As, mfs, Ms, vs, P0s, T0s, Ps, Ts, Fj] = supersonic_comb(k, Cp, M3
 
 		%.. other properties
 		Ts(n)  = T3*T0s(n)/T03*((2+(k-1)*M3^2) / (2+(k-1)*Ms(n)^2));
-		Ps(n)  = P3*As(1)/As(n)*M3/Ms(n)*sqrt(Ts(n)/T3);
-		P0s(n) = pressure(Ps(n), Ms(n), k, true);
 		vs(n)  = u3*Ms(n)/M3*sqrt(Ts(n)/T3);
+
+		rho = mfs(n)/(vs(n)*As(n));
+		Ps(n) = rho*R*Ts(n);
+
+		P0s(n) = Ps(n)*(T0s(n)/Ts(n))^(k/(k-1));
+		
 	end
 
-	Fj = mfs(end)*vs(end);
+	u9 = sqrt(2*Cp*T0s(end)*(1-(P0/P0s(end))^((k-1)/k)));
+	Fj = mfs(end)*u9;
 end
