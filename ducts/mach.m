@@ -1,10 +1,14 @@
 %.. computes mach number for constant entropy area change
 
-function [M2] = mach(A2A1, M1, k)
+function [Mach] = mach(E, k)
 
 	syms M;
 
-	eqn = M1/M*sqrt((1+(k-1)/2*M^2) / (1+(k-1)/2*M1^2) ^ ((k+1) / (k-1))) == A2A1;
+	eqn = ((k+1)/2)^(-(k+1)/(2*(k-1)))*(1+(k-1)/2*M^2)^((k+1)/(2*(k-1)))/M == E;
 
-	M2 = double(solve(eqn, M));
+	Machs = double(solve(eqn, M));
+
+	Machs(find(imag(Machs) ~= 0)) = [];
+
+	Mach = max(Machs);
 end
