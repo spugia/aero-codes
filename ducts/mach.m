@@ -6,7 +6,7 @@ function [Mach] = mach(E, k)
 
 	eqn = ((k+1)/2)^(-(k+1)/(2*(k-1)))*(1+(k-1)/2*M^2)^((k+1)/(2*(k-1)))/M == E;
 
-	Machs = double(solve(eqn, M));
+	Machs = double(vpasolve(eqn, M, E));
 
 	Machs(find(imag(Machs) ~= 0)) = [];
 
