@@ -31,6 +31,15 @@ classdef PRN < handle
 			prn.signal(end+1) = prn.calculate();
 		end
 
+		function s = increments(prn, N)
+
+			for n = [1 : 1 : N - 1]
+				prn.increment();
+			end
+
+			s = prn.signal;
+		end
+
 		function s = increment(prn)
 
 			prn.G1.increment(); prn.G2.increment();
