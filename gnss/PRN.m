@@ -31,6 +31,14 @@ classdef PRN < handle
 			prn.signal(end+1) = prn.calculate();
 		end
 
+		function s = BPSK(prn)
+
+			s = prn.signal;
+
+			s(find(s == 1)) = -1;
+			s(find(s == 0)) =  1;
+		end
+
 		function s = increments(prn, N)
 
 			for n = [1 : 1 : N - 1]
