@@ -1,4 +1,4 @@
-function [x, y, z] = orbit(t, e, i0, as, dn, toe, M0, w, Cus, Cuc, Crs, Crc, Cis, Cic, IDOT, L0, Wd)
+function [x, y, z] = orbit(t, e, i0, as, dn, toe, M0, w, Cus, Cuc, Crs, Crc, Cis, Cic, IDOT, W0, Wd)
 
 	mu = 3.9860044180E14;
 	We = 7.2921151467E-5;
@@ -39,7 +39,7 @@ function [x, y, z] = orbit(t, e, i0, as, dn, toe, M0, w, Cus, Cuc, Crs, Crc, Cis
 	xk = rk .* cos(uk);
 	yk = rk .* sin(uk);
 
-	Lk = L0 + (Wd - We) .* tk - We .* toe;
+	Lk = W0 + (Wd - We) .* tk - We .* toe;
 
 	x = xk .* cos(Lk) - yk .* cos(ik) .* sin(Lk);
 	y = xk .* sin(Lk) + yk .* cos(ik) .* cos(Lk);
